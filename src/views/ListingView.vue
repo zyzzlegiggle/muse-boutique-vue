@@ -7,7 +7,6 @@ import ProductCard from '../components/ProductCard.vue'
 const listingStore = useListingStore()
 const route = useRoute()
 
-// Check for category route query parameters and apply them
 const checkQueryParams = () => {
   if (route.query.category) {
     listingStore.setSelectedCategory(route.query.category)
@@ -20,47 +19,46 @@ onMounted(() => {
   checkQueryParams()
 })
 
-// Keep category filters synced if route query changes
 watch(() => route.query.category, () => {
   checkQueryParams()
 })
 </script>
 
 <template>
-  <div class="shop-page container animate-fade-in">
+  <div class="max-w-7xl w-full mx-auto px-6 md:px-8 py-10 animate-fade-in">
     <!-- Header Summary -->
-    <header class="shop-header">
-      <h1 class="shop-title">The Collection</h1>
-      <p class="shop-subtitle">
+    <header class="mb-12 border-b border-brand-border pb-8">
+      <h1 class="text-4xl md:text-5xl mb-2 font-serif">The Collection</h1>
+      <p class="text-[15px] text-brand-muted max-w-[500px] leading-relaxed">
         Carefully designed wardrobe staples, stone objects, and natural apothecary essentials.
       </p>
     </header>
 
-    <div class="shop-layout">
+    <div class="grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-12 items-start">
       <!-- Filter Sidebar -->
-      <aside class="shop-sidebar">
+      <aside class="flex flex-col gap-9 lg:sticky lg:top-28">
         <!-- Search -->
-        <div class="filter-group">
-          <label for="search-input" class="input-label">Search products</label>
+        <div class="flex flex-col gap-3">
+          <label for="search-input" class="text-[11px] uppercase tracking-wider text-brand-muted font-semibold">Search products</label>
           <input 
             id="search-input"
             type="text" 
             placeholder="Search keywords..." 
-            class="input-field"
+            class="input-field w-full"
             :value="listingStore.searchQuery"
             @input="listingStore.setSearchQuery($event.target.value)"
           />
         </div>
 
         <!-- Categories -->
-        <div class="filter-group">
-          <span class="input-label">Category</span>
-          <div class="category-filters">
+        <div class="flex flex-col gap-3">
+          <span class="text-[11px] uppercase tracking-wider text-brand-muted font-semibold">Category</span>
+          <div class="flex flex-col gap-2">
             <button 
               v-for="cat in listingStore.categories" 
               :key="cat"
-              class="cat-filter-btn"
-              :class="{ 'active': listingStore.selectedCategory === cat }"
+              class="text-left bg-none border-none text-[14px] text-brand-muted cursor-pointer py-1.5 transition-fast border-l-2 border-transparent pl-2.5 hover:text-brand-dark hover:border-brand-border"
+              :class="{ 'text-brand-dark font-medium border-l-brand-gold': listingStore.selectedCategory === cat }"
               @click="listingStore.setSelectedCategory(cat)"
             >
               {{ cat }}
@@ -69,10 +67,10 @@ watch(() => route.query.category, () => {
         </div>
 
         <!-- Price Range -->
-        <div class="filter-group">
-          <div class="price-header">
-            <label for="price-range" class="input-label">Maximum Price</label>
-            <span class="price-value">${{ listingStore.maxPrice }}</span>
+        <div class="flex flex-col gap-3">
+          <div class="flex justify-between items-center">
+            <label for="price-range" class="text-[11px] uppercase tracking-wider text-brand-muted font-semibold">Maximum Price</label>
+            <span class="text-[14px] font-medium text-brand-dark">${{ listingStore.maxPrice }}</span>
           </div>
           <input 
             id="price-range"
@@ -80,22 +78,22 @@ watch(() => route.query.category, () => {
             min="20" 
             max="400" 
             step="5"
-            class="price-slider"
+            class="price-slider w-full"
             :value="listingStore.maxPrice"
             @input="listingStore.setMaxPrice(parseInt($event.target.value))"
           />
-          <div class="price-bounds">
+          <div class="flex justify-between text-[11px] text-brand-gray">
             <span>$20</span>
             <span>$400</span>
           </div>
         </div>
 
         <!-- Sorting -->
-        <div class="filter-group">
-          <label for="sort-select" class="input-label">Sort Products</label>
+        <div class="flex flex-col gap-3">
+          <label for="sort-select" class="text-[11px] uppercase tracking-wider text-brand-muted font-semibold">Sort Products</label>
           <select 
             id="sort-select"
-            class="input-field select-field"
+            class="input-field select-field w-full cursor-pointer"
             :value="listingStore.sortBy"
             @change="listingStore.setSortBy($event.target.value)"
           >
@@ -107,18 +105,18 @@ watch(() => route.query.category, () => {
       </aside>
 
       <!-- Products Grid -->
-      <main class="shop-main">
-        <div class="results-meta">
-          <span class="results-count">
+      <main>
+        <div class="flex justify-between items-center mb-6">
+          <span class="text-[13px] text-brand-muted">
             Showing {{ listingStore.filteredProducts.length }} results
           </span>
         </div>
 
         <!-- Empty Results -->
-        <div v-if="listingStore.filteredProducts.length === 0" class="empty-results">
-          <p class="empty-results-msg">No products found matching your current filters.</p>
+        <div v-if="listingStore.filteredProducts.length === 0" class="text-center py-20 px-6 border border-dashed border-brand-border bg-brand-surface flex flex-col items-center gap-4">
+          <p class="font-serif text-xl text-brand-muted italic">No products found matching your current filters.</p>
           <button 
-            class="btn btn-secondary btn-sm"
+            class="btn btn-secondary py-2 px-4 text-xs"
             @click="listingStore.searchQuery = ''; listingStore.selectedCategory = 'All'; listingStore.maxPrice = 400"
           >
             Clear Filters
@@ -126,7 +124,7 @@ watch(() => route.query.category, () => {
         </div>
 
         <!-- Grid -->
-        <div v-else class="grid-3">
+        <div v-else class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
           <ProductCard 
             v-for="product in listingStore.filteredProducts" 
             :key="product.id" 
@@ -139,105 +137,11 @@ watch(() => route.query.category, () => {
 </template>
 
 <style scoped>
-.shop-page {
-  padding-top: 40px;
-}
-
-.shop-header {
-  margin-bottom: 60px;
-  border-bottom: 1px solid var(--color-border);
-  padding-bottom: 30px;
-}
-
-.shop-title {
-  font-size: 3rem;
-  margin-bottom: 8px;
-}
-
-.shop-subtitle {
-  font-size: 1rem;
-  color: var(--color-text-secondary);
-  max-width: 500px;
-}
-
-/* Layout Grid */
-.shop-layout {
-  display: grid;
-  grid-template-columns: 260px 1fr;
-  gap: 48px;
-  align-items: start;
-}
-
-@media (max-width: 900px) {
-  .shop-layout {
-    grid-template-columns: 1fr;
-    gap: 32px;
-  }
-}
-
-/* Sidebar styling */
-.shop-sidebar {
-  display: flex;
-  flex-direction: column;
-  gap: 36px;
-  position: sticky;
-  top: 120px;
-}
-
-.filter-group {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.category-filters {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.cat-filter-btn {
-  text-align: left;
-  background: none;
-  border: none;
-  font-size: 0.875rem;
-  color: var(--color-text-secondary);
-  cursor: pointer;
-  padding: 6px 0;
-  transition: var(--transition-fast);
-  border-left: 2px solid transparent;
-  padding-left: 10px;
-}
-
-.cat-filter-btn:hover {
-  color: var(--color-text-primary);
-  border-left-color: var(--color-border);
-}
-
-.cat-filter-btn.active {
-  color: var(--color-text-primary);
-  font-weight: 500;
-  border-left-color: var(--color-accent);
-}
-
-/* Price range styling */
-.price-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.price-value {
-  font-size: 0.875rem;
-  font-weight: 500;
-}
-
 .price-slider {
   -webkit-appearance: none;
   appearance: none;
-  width: 100%;
   height: 2px;
-  background: var(--color-border);
+  background: var(--color-brand-border);
   outline: none;
 }
 
@@ -247,59 +151,12 @@ watch(() => route.query.category, () => {
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  background: var(--color-text-primary);
+  background: var(--color-brand-dark);
   cursor: pointer;
-  transition: var(--transition-fast);
+  transition: all 0.2s ease;
 }
 
 .price-slider::-webkit-slider-thumb:hover {
-  background: var(--color-accent);
-}
-
-.price-bounds {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.75rem;
-  color: var(--color-text-muted);
-}
-
-.select-field {
-  cursor: pointer;
-}
-
-/* Main Shop Area */
-.results-meta {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 24px;
-}
-
-.results-count {
-  font-size: 0.8125rem;
-  color: var(--color-text-secondary);
-}
-
-.empty-results {
-  text-align: center;
-  padding: 80px 24px;
-  border: 1px dashed var(--color-border);
-  background-color: var(--color-surface);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-}
-
-.empty-results-msg {
-  font-family: var(--font-serif);
-  font-size: 1.25rem;
-  color: var(--color-text-secondary);
-  font-style: italic;
-}
-
-.btn-sm {
-  padding: 8px 16px;
-  font-size: 0.75rem;
+  background: var(--color-brand-gold);
 }
 </style>

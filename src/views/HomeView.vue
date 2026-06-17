@@ -5,78 +5,87 @@ import { useListingStore } from '../stores/listingStore'
 import ProductCard from '../components/ProductCard.vue'
 import { ArrowRight } from '@lucide/vue'
 
+// Import category images
+import apparelCategoryImg from '../assets/linentrenchcoat.png'
+import objectsCategoryImg from '../assets/travertine.png'
+import scentsCategoryImg from '../assets/perfume.png'
+
 const listingStore = useListingStore()
 
-// Select 3 featured products to show on homepage
 const featuredProducts = computed(() => {
   return [listingStore.products[0], listingStore.products[3], listingStore.products[6]]
 })
 </script>
 
 <template>
-  <div class="home-page animate-fade-in">
+  <div class="animate-fade-in">
     <!-- Hero Editorial Section -->
-    <section class="hero-section">
-      <div class="hero-image-container">
-        <!-- We use the generated image copy from assets -->
-        <img src="../assets/hero_banner.png" alt="Muse Lifestyle Banner" class="hero-image" />
-        <div class="hero-overlay"></div>
+    <section class="relative h-[calc(100vh-80px)] min-h-[550px] flex items-center overflow-hidden">
+      <div class="absolute inset-0 z-10 w-full h-full">
+        <img src="../assets/hero_banner.png" alt="Muse Lifestyle Banner" class="w-full h-full object-cover filter contrast-[1.02] brightness-[0.98]" />
+        <div class="absolute inset-0 bg-gradient-to-r from-brand-bg/70 via-brand-bg/20 to-transparent z-10 hidden md:block"></div>
       </div>
       
-      <div class="container hero-content-container">
-        <div class="hero-text-card">
-          <span class="hero-subtitle">NEW ARRIVALS</span>
-          <h1 class="hero-title">A Study in<br />Minimal Form</h1>
-          <p class="hero-description">
+      <div class="relative z-20 max-w-7xl w-full mx-auto px-6 md:px-8">
+        <div class="max-w-[480px] bg-brand-bg/90 backdrop-blur-md p-8 md:p-12 border border-brand-border shadow-sm">
+          <span class="text-[12px] tracking-[0.15em] font-semibold text-brand-gold block mb-4">NEW ARRIVALS</span>
+          <h1 class="text-4xl md:text-5xl leading-none text-brand-dark mb-5">A Study in<br />Minimal Form</h1>
+          <p class="text-[15px] text-brand-muted leading-relaxed mb-8">
             Thoughtfully crafted apparel, objects, and organic scents that bring calm and intentional utility to daily rituals.
           </p>
-          <RouterLink to="/shop" class="btn btn-primary hero-btn">
+          <RouterLink to="/shop" class="btn btn-primary inline-flex gap-3 group">
             <span>Explore Collection</span>
-            <ArrowRight :size="16" class="arrow" stroke-width="1.5" />
+            <ArrowRight :size="16" class="transition-transform duration-200 group-hover:translate-x-1" stroke-width="1.5" />
           </RouterLink>
         </div>
       </div>
     </section>
 
     <!-- Editorial Philosophy Statement -->
-    <section class="philosophy-section">
-      <div class="container philosophy-container">
-        <span class="section-label">Our Philosophy</span>
-        <h2 class="philosophy-quote">
+    <section class="py-20 md:py-28 bg-brand-light border-b border-brand-border">
+      <div class="max-w-[760px] text-center mx-auto px-6">
+        <span class="text-[12px] uppercase tracking-[0.15em] font-semibold text-brand-gold block mb-6">Our Philosophy</span>
+        <h2 class="text-3xl md:text-4xl leading-snug mb-6 text-brand-dark italic">
           "Simplicity is not the absence of clutter, but the presence of clarity."
         </h2>
-        <p class="philosophy-text">
+        <p class="text-[15px] text-brand-muted leading-relaxed">
           Muse Boutique was born out of a desire for quiet elegance. We collaborate with artisans across the globe to bring you raw stone, hand-blown glassware, clean textiles, and organic botanical extractions that celebrate natural materials. We believe in owning fewer things of higher quality.
         </p>
       </div>
     </section>
 
     <!-- Category Highlights Grid -->
-    <section class="categories-section">
-      <div class="container">
-        <span class="section-label">Curated Spaces</span>
-        <div class="categories-grid">
+    <section class="py-20">
+      <div class="max-w-7xl w-full mx-auto px-6 md:px-8">
+        <span class="text-[12px] uppercase tracking-[0.15em] font-semibold text-brand-gold block mb-6">Curated Spaces</span>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
           <!-- Apparel -->
-          <RouterLink to="/shop?category=Apparel" class="category-banner bg-apparel">
-            <div class="category-meta">
-              <h3 class="category-title">Apparel</h3>
-              <span class="category-action">Browse Garments</span>
+          <RouterLink to="/shop?category=Apparel" class="group relative h-[380px] flex items-end p-8 border border-brand-border overflow-hidden transition-smooth bg-zinc-200">
+            <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" :style="{ backgroundImage: `url(${apparelCategoryImg})` }"></div>
+            <div class="absolute inset-0 bg-black/25 z-10 transition-colors duration-300 group-hover:bg-black/35"></div>
+            <div class="relative z-20 text-brand-bg">
+              <h3 class="text-3xl text-brand-bg mb-1.5 font-serif">Apparel</h3>
+              <span class="text-[12px] uppercase tracking-wider font-medium opacity-85 inline-flex items-center gap-1.5 transition-transform duration-200 group-hover:translate-x-1">Browse Garments</span>
             </div>
           </RouterLink>
 
           <!-- Objects -->
-          <RouterLink to="/shop?category=Objects" class="category-banner bg-objects">
-            <div class="category-meta">
-              <h3 class="category-title">Objects</h3>
-              <span class="category-action">Browse Homeware</span>
+          <RouterLink to="/shop?category=Objects" class="group relative h-[380px] flex items-end p-8 border border-brand-border overflow-hidden transition-smooth bg-zinc-200">
+            <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" :style="{ backgroundImage: `url(${objectsCategoryImg})` }"></div>
+            <div class="absolute inset-0 bg-black/25 z-10 transition-colors duration-300 group-hover:bg-black/35"></div>
+            <div class="relative z-20 text-brand-bg">
+              <h3 class="text-3xl text-brand-bg mb-1.5 font-serif">Objects</h3>
+              <span class="text-[12px] uppercase tracking-wider font-medium opacity-85 inline-flex items-center gap-1.5 transition-transform duration-200 group-hover:translate-x-1">Browse Homeware</span>
             </div>
           </RouterLink>
 
           <!-- Scents -->
-          <RouterLink to="/shop?category=Scents" class="category-banner bg-scents">
-            <div class="category-meta">
-              <h3 class="category-title">Scents</h3>
-              <span class="category-action">Browse Apothecary</span>
+          <RouterLink to="/shop?category=Scents" class="group relative h-[380px] flex items-end p-8 border border-brand-border overflow-hidden transition-smooth bg-zinc-200">
+            <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" :style="{ backgroundImage: `url(${scentsCategoryImg})` }"></div>
+            <div class="absolute inset-0 bg-black/25 z-10 transition-colors duration-300 group-hover:bg-black/35"></div>
+            <div class="relative z-20 text-brand-bg">
+              <h3 class="text-3xl text-brand-bg mb-1.5 font-serif">Scents</h3>
+              <span class="text-[12px] uppercase tracking-wider font-medium opacity-85 inline-flex items-center gap-1.5 transition-transform duration-200 group-hover:translate-x-1">Browse Apothecary</span>
             </div>
           </RouterLink>
         </div>
@@ -84,17 +93,17 @@ const featuredProducts = computed(() => {
     </section>
 
     <!-- Featured Collection -->
-    <section class="featured-section">
-      <div class="container">
-        <div class="section-header">
+    <section class="py-20 md:pb-28 border-t border-brand-border">
+      <div class="max-w-7xl w-full mx-auto px-6 md:px-8">
+        <div class="flex justify-between items-end mb-12">
           <div>
-            <span class="section-label">The Selection</span>
-            <h2 class="section-title">Selected Pieces</h2>
+            <span class="text-[12px] uppercase tracking-[0.15em] font-semibold text-brand-gold block">The Selection</span>
+            <h2 class="text-3xl md:text-4xl text-brand-dark mt-1 font-serif">Selected Pieces</h2>
           </div>
           <RouterLink to="/shop" class="btn-link">View All Products</RouterLink>
         </div>
         
-        <div class="grid-3">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
           <ProductCard 
             v-for="product in featuredProducts" 
             :key="product.id" 
@@ -105,280 +114,3 @@ const featuredProducts = computed(() => {
     </section>
   </div>
 </template>
-
-<style scoped>
-/* Hero Section */
-.hero-section {
-  position: relative;
-  height: calc(100vh - 80px);
-  min-height: 550px;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-}
-
-.hero-image-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-}
-
-.hero-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: contrast(1.02) brightness(0.98);
-}
-
-.hero-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, rgba(253, 253, 251, 0.7) 0%, rgba(253, 253, 251, 0.2) 60%, rgba(0,0,0,0) 100%);
-}
-
-.hero-content-container {
-  position: relative;
-  z-index: 2;
-}
-
-.hero-text-card {
-  max-width: 480px;
-  background-color: rgba(253, 253, 251, 0.9);
-  backdrop-filter: blur(16px);
-  padding: 48px;
-  border: 1px solid var(--color-border);
-}
-
-@media (max-width: 768px) {
-  .hero-section {
-    height: auto;
-    padding: 60px 0;
-  }
-  .hero-image-container {
-    opacity: 0.2;
-  }
-  .hero-overlay {
-    background: none;
-  }
-  .hero-text-card {
-    background: none;
-    backdrop-filter: none;
-    border: none;
-    padding: 0;
-    max-width: 100%;
-  }
-}
-
-.hero-subtitle {
-  font-size: 0.75rem;
-  letter-spacing: 0.15em;
-  font-weight: 600;
-  color: var(--color-accent);
-  display: block;
-  margin-bottom: 16px;
-}
-
-.hero-title {
-  font-size: 3.5rem;
-  line-height: 1.1;
-  color: var(--color-text-primary);
-  margin-bottom: 20px;
-}
-
-@media (max-width: 480px) {
-  .hero-title {
-    font-size: 2.5rem;
-  }
-}
-
-.hero-description {
-  font-size: 0.9375rem;
-  color: var(--color-text-secondary);
-  line-height: 1.7;
-  margin-bottom: 32px;
-}
-
-.hero-btn {
-  display: inline-flex;
-  gap: 12px;
-}
-
-.hero-btn .arrow {
-  transition: transform var(--transition-fast);
-}
-
-.hero-btn:hover .arrow {
-  transform: translateX(4px);
-}
-
-/* Philosophy Section */
-.philosophy-section {
-  padding: 100px 0;
-  background-color: var(--color-accent-light);
-  border-bottom: 1px solid var(--color-border);
-}
-
-.philosophy-container {
-  max-width: 760px;
-  text-align: center;
-  margin: 0 auto;
-}
-
-.section-label {
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  font-weight: 600;
-  color: var(--color-accent);
-  display: block;
-  margin-bottom: 24px;
-}
-
-.philosophy-quote {
-  font-size: 2.25rem;
-  line-height: 1.3;
-  margin-bottom: 24px;
-  color: var(--color-text-primary);
-  font-style: italic;
-}
-
-@media (max-width: 600px) {
-  .philosophy-quote {
-    font-size: 1.75rem;
-  }
-}
-
-.philosophy-text {
-  font-size: 0.9375rem;
-  color: var(--color-text-secondary);
-  line-height: 1.8;
-}
-
-/* Curated Spaces Banners */
-.categories-section {
-  padding: 80px 0;
-}
-
-.categories-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-}
-
-@media (max-width: 768px) {
-  .categories-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-.category-banner {
-  height: 380px;
-  display: flex;
-  align-items: flex-end;
-  padding: 30px;
-  position: relative;
-  overflow: hidden;
-  border: 1px solid var(--color-border);
-  transition: var(--transition-smooth);
-}
-
-.category-banner::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(0deg, rgba(28, 26, 23, 0.4) 0%, rgba(0,0,0,0) 60%);
-  z-index: 1;
-}
-
-.category-banner.bg-apparel {
-  background: #eae6df;
-}
-
-.category-banner.bg-objects {
-  background: #f1ebd9;
-}
-
-.category-banner.bg-scents {
-  background: #e6e2da;
-}
-
-/* Elegant visual abstractions inside category banners */
-.category-banner::after {
-  content: '';
-  position: absolute;
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  border: 1px stroke rgba(28, 26, 23, 0.05);
-  top: 30%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  border: 1px solid rgba(28, 26, 23, 0.06);
-  pointer-events: none;
-  transition: var(--transition-smooth);
-}
-
-.category-banner:hover::after {
-  width: 150px;
-  height: 150px;
-  border-color: rgba(28, 26, 23, 0.12);
-}
-
-.category-meta {
-  position: relative;
-  z-index: 2;
-  color: var(--color-bg);
-}
-
-.category-title {
-  font-size: 2rem;
-  color: var(--color-bg);
-  margin-bottom: 6px;
-  letter-spacing: -0.01em;
-}
-
-.category-action {
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  font-weight: 500;
-  opacity: 0.8;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  transition: var(--transition-fast);
-}
-
-.category-banner:hover .category-action {
-  opacity: 1;
-  transform: translateX(4px);
-}
-
-/* Featured Section */
-.featured-section {
-  padding: 80px 0 120px 0;
-  border-top: 1px solid var(--color-border);
-}
-
-.section-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  margin-bottom: 48px;
-}
-
-.section-title {
-  font-size: 2.25rem;
-  color: var(--color-text-primary);
-  margin-top: 4px;
-}
-</style>

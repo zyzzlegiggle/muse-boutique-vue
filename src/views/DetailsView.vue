@@ -34,43 +34,43 @@ const addToCart = () => {
 </script>
 
 <template>
-  <div class="details-page container animate-fade-in">
+  <div class="max-w-7xl w-full mx-auto px-6 md:px-8 py-10 animate-fade-in">
     <!-- Back to shop link -->
-    <div class="back-nav">
-      <RouterLink to="/shop" class="back-link">
+    <div class="mb-10">
+      <RouterLink to="/shop" class="inline-flex items-center gap-2 text-[13px] uppercase tracking-wider text-brand-muted font-semibold hover:text-brand-dark transition-transform hover:-translate-x-1 duration-200">
         <ArrowLeft :size="16" stroke-width="1.5" />
         <span>Back to collection</span>
       </RouterLink>
     </div>
 
     <!-- Product Details Content -->
-    <div v-if="product" class="details-layout">
-      <!-- Left side: Image/Drawing Display -->
-      <section class="gallery-section">
-        <div class="product-canvas">
-          <div class="svg-container" v-html="product.svg.path" :viewBox="product.svg.viewBox"></div>
+    <div v-if="product" class="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-12 lg:gap-20 items-start">
+      <!-- Left side: Image Display -->
+      <section class="w-full">
+        <div class="aspect-[4/5] w-full bg-brand-light border border-brand-border flex items-center justify-center overflow-hidden p-0">
+          <img :src="product.image" :alt="product.title" class="w-full h-full object-cover" />
         </div>
       </section>
 
       <!-- Right side: Product purchasing & details specs -->
-      <section class="info-section">
-        <span class="info-category">{{ product.category }}</span>
+      <section class="flex flex-col">
+        <span class="text-[12px] uppercase tracking-widest text-brand-gray mb-2 font-semibold">{{ product.category }}</span>
         
-        <h1 class="info-title">{{ product.title }}</h1>
-        <p class="info-subtitle">{{ product.subtitle }}</p>
-        <span class="info-price">${{ product.price }}</span>
+        <h1 class="text-4xl lg:text-5xl leading-none text-brand-dark mb-1 font-serif">{{ product.title }}</h1>
+        <p class="text-base text-brand-muted italic mb-4 font-serif">{{ product.subtitle }}</p>
+        <span class="text-2xl font-medium text-brand-dark mb-6 block">${{ product.price }}</span>
         
-        <p class="info-description">{{ product.description }}</p>
+        <p class="text-[15px] text-brand-muted leading-relaxed mb-8">{{ product.description }}</p>
 
         <!-- Variant Selector -->
-        <div class="selector-group" v-if="product.variants && product.variants.length > 0">
-          <span class="selector-label">Select {{ product.variantLabel }}</span>
-          <div class="variant-buttons">
+        <div class="mb-8 flex flex-col gap-3" v-if="product.variants && product.variants.length > 0">
+          <span class="text-[12px] uppercase tracking-wider text-brand-muted font-semibold">Select {{ product.variantLabel }}</span>
+          <div class="flex flex-wrap gap-2.5">
             <button 
               v-for="v in product.variants" 
               :key="v"
-              class="variant-btn"
-              :class="{ 'active': selectedVariant === v }"
+              class="bg-none border border-brand-border px-5 py-2.5 text-[13px] cursor-pointer transition-fast min-w-[60px] hover:border-brand-dark"
+              :class="{ 'border-brand-dark bg-brand-dark text-brand-bg': selectedVariant === v }"
               @click="selectVariant(v)"
             >
               {{ v }}
@@ -79,32 +79,43 @@ const addToCart = () => {
         </div>
 
         <!-- Purchase Button -->
-        <button class="btn btn-primary buy-btn" @click="addToCart">
+        <button class="w-full mb-10 flex gap-2.5 btn btn-primary" @click="addToCart">
           <ShoppingBag :size="16" stroke-width="1.5" />
           <span>Add to Bag</span>
         </button>
 
         <!-- Product Accordions -->
-        <div class="accordions-container">
-          <details class="accordion-item" open>
-            <summary class="accordion-header">The Narrative</summary>
-            <div class="accordion-content">
+        <div class="border-t border-brand-border">
+          <details class="border-b border-brand-border group" open>
+            <summary class="py-5 text-sm uppercase tracking-wider font-semibold cursor-pointer text-brand-dark hover:text-brand-gold select-none outline-none transition-fast list-none flex justify-between items-center">
+              <span>Details</span>
+              <span class="text-xs transition-transform duration-300 group-open:rotate-180">↓</span>
+            </summary>
+            <div class="pb-6 text-sm text-brand-muted leading-relaxed">
               <p>{{ product.details }}</p>
             </div>
           </details>
 
-          <details class="accordion-item">
-            <summary class="accordion-header">Specifications</summary>
-            <div class="accordion-content">
-              <ul class="specs-list">
-                <li v-for="spec in product.specs" :key="spec">{{ spec }}</li>
+          <details class="border-b border-brand-border group">
+            <summary class="py-5 text-sm uppercase tracking-wider font-semibold cursor-pointer text-brand-dark hover:text-brand-gold select-none outline-none transition-fast list-none flex justify-between items-center">
+              <span>Specifications</span>
+              <span class="text-xs transition-transform duration-300 group-open:rotate-180">↓</span>
+            </summary>
+            <div class="pb-6 text-sm text-brand-muted leading-relaxed">
+              <ul class="flex flex-col gap-2">
+                <li v-for="spec in product.specs" :key="spec" class="relative pl-3.5 before:content-['—'] before:absolute before:left-0 before:text-brand-gray">
+                  {{ spec }}
+                </li>
               </ul>
             </div>
           </details>
 
-          <details class="accordion-item">
-            <summary class="accordion-header">Shipping & Returns</summary>
-            <div class="accordion-content">
+          <details class="border-b border-brand-border group">
+            <summary class="py-5 text-sm uppercase tracking-wider font-semibold cursor-pointer text-brand-dark hover:text-brand-gold select-none outline-none transition-fast list-none flex justify-between items-center">
+              <span>Shipping & Returns</span>
+              <span class="text-xs transition-transform duration-300 group-open:rotate-180">↓</span>
+            </summary>
+            <div class="pb-6 text-sm text-brand-muted leading-relaxed">
               <p>
                 We ship globally using carbon-neutral carrier services. Standard deliveries arrive in 3-5 business days. We offer free shipping on orders over $250. Unworn apparel and unboxed home objects can be returned within 14 days of delivery.
               </p>
@@ -115,9 +126,9 @@ const addToCart = () => {
     </div>
 
     <!-- Product Not Found State -->
-    <div v-else class="not-found-state">
-      <h2 class="not-found-title">Product Not Found</h2>
-      <p class="not-found-msg">We couldn't load the product you are looking for.</p>
+    <div v-else class="text-center py-24 px-6 max-w-[500px] mx-auto flex flex-col items-center gap-5">
+      <h2 class="text-3xl font-serif">Product Not Found</h2>
+      <p class="text-brand-muted">We couldn't load the product you are looking for.</p>
       <RouterLink to="/shop" class="btn btn-primary">
         Return to Collection
       </RouterLink>
@@ -126,238 +137,7 @@ const addToCart = () => {
 </template>
 
 <style scoped>
-.details-page {
-  padding-top: 30px;
-}
-
-.back-nav {
-  margin-bottom: 40px;
-}
-
-.back-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 0.8125rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--color-text-secondary);
-  font-weight: 500;
-}
-
-.back-link:hover {
-  color: var(--color-text-primary);
-  transform: translateX(-4px);
-}
-
-/* Split layout grid */
-.details-layout {
-  display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
-  gap: 80px;
-  align-items: start;
-}
-
-@media (max-width: 900px) {
-  .details-layout {
-    grid-template-columns: 1fr;
-    gap: 48px;
-  }
-}
-
-/* Canvas Gallery */
-.product-canvas {
-  aspect-ratio: 4/5;
-  width: 100%;
-  background-color: var(--color-accent-light);
-  border: 1px solid var(--color-border);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--color-accent);
-  padding: 60px;
-}
-
-.svg-container {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.svg-container :deep(svg) {
-  width: 100%;
-  height: 100%;
-  max-width: 280px;
-  max-height: 280px;
-}
-
-/* Info purchasing area */
-.info-section {
-  display: flex;
-  flex-direction: column;
-}
-
-.info-category {
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--color-text-muted);
-  margin-bottom: 8px;
-  font-weight: 600;
-}
-
-.info-title {
-  font-size: 2.75rem;
-  line-height: 1.1;
-  color: var(--color-text-primary);
-  margin-bottom: 4px;
-}
-
-.info-subtitle {
-  font-size: 1rem;
-  color: var(--color-text-secondary);
-  font-style: italic;
-  margin-bottom: 16px;
-  font-family: var(--font-serif);
-}
-
-.info-price {
-  font-size: 1.5rem;
-  font-weight: 500;
-  color: var(--color-text-primary);
-  margin-bottom: 24px;
-  display: block;
-}
-
-.info-description {
-  font-size: 0.9375rem;
-  color: var(--color-text-secondary);
-  line-height: 1.7;
-  margin-bottom: 32px;
-}
-
-/* Variant button selector */
-.selector-group {
-  margin-bottom: 32px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.selector-label {
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--color-text-secondary);
-  font-weight: 600;
-}
-
-.variant-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.variant-btn {
-  background: none;
-  border: 1px solid var(--color-border);
-  padding: 10px 20px;
-  font-size: 0.8125rem;
-  cursor: pointer;
-  transition: var(--transition-fast);
-  min-width: 60px;
-}
-
-.variant-btn:hover {
-  border-color: var(--color-text-primary);
-}
-
-.variant-btn.active {
-  border-color: var(--color-text-primary);
-  background-color: var(--color-text-primary);
-  color: var(--color-bg);
-}
-
-/* Buy button */
-.buy-btn {
-  width: 100%;
-  margin-bottom: 40px;
-  display: flex;
-  gap: 10px;
-}
-
-/* Accordions */
-.accordions-container {
-  border-top: 1px solid var(--color-border);
-}
-
-.accordion-item {
-  border-bottom: 1px solid var(--color-border);
-}
-
-.accordion-header {
-  padding: 20px 0;
-  font-size: 0.875rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  font-weight: 600;
-  cursor: pointer;
-  color: var(--color-text-primary);
-  user-select: none;
-  outline: none;
-  transition: var(--transition-fast);
-}
-
-.accordion-header:hover {
-  color: var(--color-accent);
-}
-
-.accordion-content {
-  padding: 0 0 24px 0;
-  font-size: 0.875rem;
-  color: var(--color-text-secondary);
-  line-height: 1.7;
-}
-
-.specs-list {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.specs-list li {
-  position: relative;
-  padding-left: 14px;
-}
-
-.specs-list li::before {
-  content: '—';
-  position: absolute;
-  left: 0;
-  color: var(--color-text-muted);
-}
-
-/* Product not found */
-.not-found-state {
-  text-align: center;
-  padding: 120px 24px;
-  max-width: 500px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-}
-
-.not-found-title {
-  font-size: 2rem;
-}
-
-.not-found-msg {
-  color: var(--color-text-secondary);
-  margin-bottom: 10px;
+summary::-webkit-details-marker {
+  display: none;
 }
 </style>

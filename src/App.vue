@@ -22,7 +22,7 @@ import CartDrawer from './components/CartDrawer.vue'
 
     <!-- Minimalist Editorial Footer -->
     <footer class="main-footer">
-      <div class="container footer-grid">
+      <div class="max-w-7xl mx-auto px-6 md:px-8 footer-grid">
         <div class="footer-brand">
           <h2 class="footer-logo">MUSE</h2>
           <p class="footer-tagline">Curated luxury garments, objects, and scents for modern living. Designed in harmony, crafted to endure.</p>
@@ -58,9 +58,8 @@ import CartDrawer from './components/CartDrawer.vue'
         </div>
       </div>
       
-      <div class="container footer-bottom">
+      <div class="max-w-7xl mx-auto px-6 md:px-8 footer-bottom">
         <span class="copyright">© 2026 Muse Boutique. All rights reserved.</span>
-        <span class="credits">Created in partnership with Antigravity</span>
       </div>
     </footer>
   </div>
